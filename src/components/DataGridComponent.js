@@ -6,6 +6,8 @@ import '../EmotionDetection.css';
 function DataGridComponent({ rows, selectedValue }) {
 
 	return (
+		<div>
+		{rows?(
 		<div >
 			<TableContainer component={Paper}>
 				<Table className="dataGrid"  aria-label="caption table">
@@ -22,16 +24,19 @@ function DataGridComponent({ rows, selectedValue }) {
 						{rows.map((row) => (
 							<TableRow key={row.name}>
 							
-								<TableCell align="center">{row.col1}</TableCell>
+								<TableCell align="center" >{row.col1}</TableCell>
 								<TableCell align="center">{row.col2}</TableCell>
 								<TableCell align="center">{selectedValue}</TableCell>
-								<TableCell align="center">{row.Result}</TableCell>
+								<TableCell align="center" style={{color:row.col1===row.col2?'blue':'red'}}>{row.Result}</TableCell>
 							</TableRow>
 						))}
 					</TableBody>
 				</Table>
 			</TableContainer>
 		</div>
+		): <div>Loading...</div>}
+		</div>
+
 	);
 }
 
