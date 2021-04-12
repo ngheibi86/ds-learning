@@ -3,7 +3,7 @@ import Paper from '@material-ui/core/Paper';
 import '../EmotionDetection.css';
 
 
-function DataGridComponent({ rows, selectedValue }) {
+function DataGridComponent({ rows }) {
 
 	return (
 		<div>
@@ -13,22 +13,26 @@ function DataGridComponent({ rows, selectedValue }) {
 				<Table className="dataGrid"  aria-label="caption table">
 					<caption>A basic table example with a caption</caption>
 					<TableHead>
-						<TableRow>
-							<TableCell style={{backgroundColor:'darkgrey', fontWeight:'bold'}} align="center">Col1</TableCell>
-							<TableCell style={{backgroundColor:'darkgrey', fontWeight:'bold'}} align="center">Col2</TableCell>
-							<TableCell style={{backgroundColor:'darkgrey', fontWeight:'bold'}} align="center">Col3</TableCell>
-							<TableCell style={{backgroundColor:'darkgrey', fontWeight:'bold'}} align="center">Result</TableCell>
+						
+						<TableRow >
+						{rows.columns.map((row)=>(
+							<TableCell style={{backgroundColor:'darkgrey', fontWeight:'bold'}} align="center">{row}</TableCell>
+							))}
 						</TableRow>
+					
 					</TableHead>
+				
 					<TableBody>
-						{rows.map((row) => (
-							<TableRow key={row.name}>
-							
-								<TableCell align="center" >{row.col1}</TableCell>
-								<TableCell align="center">{row.col2}</TableCell>
-								<TableCell align="center">{selectedValue}</TableCell>
-								<TableCell align="center" style={{color:row.col1===row.col2?'blue':'red'}}>{row.Result}</TableCell>
+						{rows.results.map((item,index) => (
+
+						
+							<TableRow key={index}>
+								<TableCell align="center" >{item[0]}</TableCell>
+								<TableCell align="center">{item[1]}</TableCell>
+								<TableCell align="center">{item[2]}</TableCell>
+								<TableCell align="center" style={{color:item[1]===item[2]?'blue':'red'}}>{item[3]}</TableCell>
 							</TableRow>
+							
 						))}
 					</TableBody>
 				</Table>

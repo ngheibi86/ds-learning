@@ -6,6 +6,16 @@ import DataGridComponent from './components/DataGridComponent';
 import { Col, Container, Row } from 'react-bootstrap';
 
 
+// const dataList = () => async (dispatch) => {
+// 	try {
+// 		dataList = await axios.get('http://jsonplaceholder.typicode.com/users');
+// 		consol.log(dataList);
+// 	} catch (error) {
+// 	}
+// }
+// state = {
+// 	dataList: []
+// };
 
 const theme = createMuiTheme({
 	typography: {
@@ -36,30 +46,41 @@ const theme = createMuiTheme({
 
 
 
-//    handleChange = event => {
-// 	this.setState({ selected: event.target.value});
-//   };
+
 function EmotionDetection() {
   const [selectedValue, setSelectedValue] = React.useState('');
   const [rows, setRows] = React.useState('');
+  const [textValue, settextValue] = React.useState('');
   const handleChange = (event) => {
 		console.log('event.target.value: ' + event.target.value);
 		setSelectedValue(event.target.value);
 	};
-	// let rows = [
-	// 	{ col1: 'cell-1-1', col2: 'cell-1-2', col3: 'cell-1-3', Result: 'cell-1-3' },
-	// 	{ col1: 'cell-1-1', col2: 'cell-1-1', col3: 'cell-2-3', Result: 'cell-2-3' },
-	// 	{ col1: 'cell-3-1', col2: 'cell-3-2', col3: 'cell-3-3', Result: 'cell-3-3' }
-	// ];
+	const handleTextFieldChange=(e)=> {
+        settextValue({
+            textValue: e.target.value
+        })
 
+    };
 	const handleSendData = () => {
-		setRows([
-			{ col1: 'cell-1-1', col2: 'cell-1-2', col3: 'cell-1-3', Result: 'cell-1-3' },
-			{ col1: 'cell-1-1', col2: 'cell-1-1', col3: 'cell-2-3', Result: 'cell-2-3' },
-			{ col1: 'cell-3-1', col2: 'cell-3-2', col3: 'cell-3-3', Result: 'cell-3-3' }
-		]
-	);
+		fetch('http://localhost:5000/api/fabeec?text='+ textValue+';'+ selectedValue )
+		.then(res => res.json())
+		.then((data) => {
+			// console.log(data);
+			setRows(data.message);
+		})
+		.catch(console.log);
+
+
+		// consol.log(dataList);
+	// 	setRows(
+	// 		// { col1: 'cell-1-1', col2: 'cell-1-2', col3: 'cell-1-3', Result: 'False' },
+	// 		// { col1: 'cell-1-1', col2: 'cell-1-1', col3: 'cell-2-3', Result: 'True' },
+	// 		// { col1: 'cell-3-1', col2: 'cell-3-2', col3: 'cell-3-3', Result: 'False' }
+	// 		dataList
+	// 	]
+	// );
 		setSelectedValue(selectedValue);
+
 	};
 
 
@@ -79,7 +100,7 @@ function EmotionDetection() {
 											variant="outlined"
 
 										/> */}
-										<TextareaAutosize aria-label="empty textarea" placeholder="Enter Your Text" style={{height:200, width:500, fontSize:20,fontFamily:'system-ui'}} />
+										<TextareaAutosize onChange={handleTextFieldChange} id="textareaId" aria-label="empty textarea" placeholder="Enter Your Text" style={{height:200, width:500, fontSize:20,fontFamily:'system-ui'}} />
 									</ThemeProvider>
 									<ThemeProvider theme={theme}>
 										<FormControl style={{ width: 100, marginLeft: 20 }}>
@@ -120,7 +141,7 @@ function EmotionDetection() {
 			</Row>
 			<Row>
 				<Col>
-					<DataGridComponent  rows={rows} selectedValue={selectedValue} />
+					<DataGridComponent  rows={rows}  />
 
 				</Col>
 			</Row>
